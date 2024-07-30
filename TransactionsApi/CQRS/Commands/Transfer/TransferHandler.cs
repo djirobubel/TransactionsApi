@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using TransactionsApi.CQRS.Commands.Accrual;
 using TransactionsApi.Interface;
 using TransactionsApi.Models;
 
