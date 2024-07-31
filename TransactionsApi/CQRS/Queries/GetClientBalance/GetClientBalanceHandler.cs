@@ -1,22 +1,22 @@
 ﻿using MediatR;
 using TransactionsApi.Interface;
 
-namespace TransactionsApi.CQRS.Queries.AccrualClientBalance
+namespace TransactionsApi.CQRS.Queries.GetClientBalance
 {
-    public class AccrualClientBalanceHandler : IRequestHandler<AccrualClientBalanceQuery,
-        AccrualClientBalanceResult>
+    public class GetClientBalanceHandler : IRequestHandler<GetClientBalanceQuery,
+        GetClientBalanceResult>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientRepository _clientRepository;
 
-        public AccrualClientBalanceHandler(ITransactionRepository transactionRepository,
+        public GetClientBalanceHandler(ITransactionRepository transactionRepository,
             IClientRepository clientRepository)
         {
             _transactionRepository = transactionRepository;
             _clientRepository = clientRepository;
         }
 
-        public async Task<AccrualClientBalanceResult> Handle(AccrualClientBalanceQuery request,
+        public async Task<GetClientBalanceResult> Handle(GetClientBalanceQuery request,
             CancellationToken cancellationToken)
         {
             if (!_clientRepository.ClientExists(request.ClientId))
@@ -27,7 +27,7 @@ namespace TransactionsApi.CQRS.Queries.AccrualClientBalance
             var currentBalance = await _transactionRepository.
                 GetClientCurrentBalanceAsync(request.ClientId);
 
-            return new AccrualClientBalanceResult { Balance = currentBalance };
+            return new GetClientBalanceResult { Balance = currentBalance };
         }
     }
 }

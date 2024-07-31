@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TransactionsApi.CQRS.Commands.Accrual;
 using TransactionsApi.CQRS.Commands.WriteOff;
 using TransactionsApi.CQRS.Commands.Transfer;
-using TransactionsApi.CQRS.Queries.AccrualClientBalance;
+using TransactionsApi.CQRS.Queries.GetClientBalance;
 
 namespace TransactionsApi.Controllers
 {
@@ -20,11 +20,11 @@ namespace TransactionsApi.Controllers
         }
 
         [HttpGet("{clientId}")]
-        [ProducesResponseType(typeof(AccrualClientBalanceResult), 200)]
+        [ProducesResponseType(typeof(GetClientBalanceResult), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetClientBalance(Guid clientId)
         {
-            var result = await _mediator.Send(new AccrualClientBalanceQuery(clientId));
+            var result = await _mediator.Send(new GetClientBalanceQuery(clientId));
             return Ok(result);
         }
 
