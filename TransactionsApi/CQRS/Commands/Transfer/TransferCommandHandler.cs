@@ -4,19 +4,19 @@ using TransactionsApi.Models;
 
 namespace TransactionsApi.CQRS.Commands.Transfer
 {
-    public class TransferHandler : IRequestHandler<TransferCommand, TransferResult>
+    public class TransferCommandHandler : IRequestHandler<TransferCommand, TransferCommandResult>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientRepository _clientRepository;
 
-        public TransferHandler(ITransactionRepository transactionRepository,
+        public TransferCommandHandler(ITransactionRepository transactionRepository,
             IClientRepository clientRepository)
         {
             _transactionRepository = transactionRepository;
             _clientRepository = clientRepository;
         }
 
-        public async Task<TransferResult> Handle(TransferCommand request,
+        public async Task<TransferCommandResult> Handle(TransferCommand request,
             CancellationToken cancellationToken)
         {
             if (!_clientRepository.ClientExists(request.SenderId))
@@ -56,7 +56,7 @@ namespace TransactionsApi.CQRS.Commands.Transfer
             };
             await _transactionRepository.CreateTransactionAsync(accrual);
 
-            return new TransferResult { Message = "Successfull transfer." };
+            return new TransferCommandResult { Message = "Successfull transfer." };
         }
     }
 }

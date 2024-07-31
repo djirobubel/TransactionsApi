@@ -1,6 +1,6 @@
 ﻿namespace TransactionsApi.CQRS.Commands.WriteOff
 {
-    public class WriteOffResult
+    public class WriteOffCommandResult
     {
         public string? Message { get; set; }
     }

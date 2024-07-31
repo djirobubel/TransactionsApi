@@ -4,19 +4,19 @@ using TransactionsApi.Models;
 
 namespace TransactionsApi.CQRS.Commands.Accrual
 {
-    public class AccrualHandler : IRequestHandler<AccrualCommand, AccrualResult>
+    public class AccrualCommandHandler : IRequestHandler<AccrualCommand, AccrualCommandResult>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientRepository _clientRepository;
 
-        public AccrualHandler(ITransactionRepository transactionRepository,
+        public AccrualCommandHandler(ITransactionRepository transactionRepository,
             IClientRepository clientRepository)
         {
             _transactionRepository = transactionRepository;
             _clientRepository = clientRepository;
         }
 
-        public async Task<AccrualResult> Handle(AccrualCommand request,
+        public async Task<AccrualCommandResult> Handle(AccrualCommand request,
             CancellationToken cancellationToken)
         {
             if(!_clientRepository.ClientExists(request.ClientId))
@@ -32,7 +32,7 @@ namespace TransactionsApi.CQRS.Commands.Accrual
 
             await _transactionRepository.CreateTransactionAsync(accrual);
 
-            return new AccrualResult { Message = "Successfull accrual." };
+            return new AccrualCommandResult { Message = "Successfull accrual." };
         }
     }
 }

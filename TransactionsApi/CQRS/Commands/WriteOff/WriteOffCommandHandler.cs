@@ -4,19 +4,19 @@ using TransactionsApi.Models;
 
 namespace TransactionsApi.CQRS.Commands.WriteOff
 {
-    public class WriteOffHandler : IRequestHandler<WriteOffCommand, WriteOffResult>
+    public class WriteOffCommandHandler : IRequestHandler<WriteOffCommand, WriteOffCommandResult>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientRepository _clientRepository;
 
-        public WriteOffHandler(ITransactionRepository transactionRepository,
+        public WriteOffCommandHandler(ITransactionRepository transactionRepository,
             IClientRepository clientRepository)
         {
             _transactionRepository = transactionRepository;
             _clientRepository = clientRepository;
         }
 
-        public async Task<WriteOffResult> Handle(WriteOffCommand request,
+        public async Task<WriteOffCommandResult> Handle(WriteOffCommand request,
             CancellationToken cancellationToken)
         {
             if (!_clientRepository.ClientExists(request.ClientId))
@@ -45,7 +45,7 @@ namespace TransactionsApi.CQRS.Commands.WriteOff
 
             await _transactionRepository.CreateTransactionAsync(writeOff);
 
-            return new WriteOffResult { Message = "Successfull write off." };
+            return new WriteOffCommandResult { Message = "Successfull write off." };
         }
     }
 }

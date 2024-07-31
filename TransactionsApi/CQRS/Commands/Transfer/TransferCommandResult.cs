@@ -1,6 +1,6 @@
 ﻿namespace TransactionsApi.CQRS.Commands.Transfer
 {
-    public class TransferResult
+    public class TransferCommandResult
     {
         public string? Message { get; set; }
     }
