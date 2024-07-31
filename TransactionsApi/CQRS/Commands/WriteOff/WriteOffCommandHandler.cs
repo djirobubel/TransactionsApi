@@ -24,14 +24,10 @@ namespace TransactionsApi.CQRS.Commands.WriteOff
                 throw new InvalidOperationException("Unable to perform write off. Client not found.");
             }
 
-            var transactions = _transactionRepository.GetTransactionsByClientIdAsync(request.ClientId);
-            decimal currentBalance = 0;
-            foreach (var transaction in await transactions)
-            {
-                currentBalance += transaction.Amount;
-            }
+            var currentBalance = await _transactionRepository.
+                GetClientCurrentBalanceAsync(request.ClientId);
 
-            if (currentBalance - request.Amount < 0)
+            if ((currentBalance - request.Amount) < 0)
             {
                 throw new InvalidOperationException
                     ("Unable to perform write off. Insufficient funds in the account.");

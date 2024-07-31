@@ -6,5 +6,6 @@ namespace TransactionsApi.Interface
     {
         Task<int> CreateTransactionAsync(Transaction transaction);
         Task<ICollection<Transaction>> GetTransactionsByClientIdAsync(Guid clientId);
+        Task<decimal> GetClientCurrentBalanceAsync(Guid clientId);
     }
 }

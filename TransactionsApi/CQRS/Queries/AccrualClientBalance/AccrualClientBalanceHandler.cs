@@ -24,12 +24,8 @@ namespace TransactionsApi.CQRS.Queries.AccrualClientBalance
                 throw new InvalidOperationException("Client not found.");
             }
 
-            var transactions = _transactionRepository.GetTransactionsByClientIdAsync(request.ClientId);
-            decimal currentBalance = 0;
-            foreach (var transaction in await transactions)
-            {
-                currentBalance += transaction.Amount;
-            }
+            var currentBalance = await _transactionRepository.
+                GetClientCurrentBalanceAsync(request.ClientId);
 
             return new AccrualClientBalanceResult { Balance = currentBalance };
         }

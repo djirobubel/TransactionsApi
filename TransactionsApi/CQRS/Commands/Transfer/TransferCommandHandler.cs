@@ -29,12 +29,8 @@ namespace TransactionsApi.CQRS.Commands.Transfer
                 throw new InvalidOperationException("Unable to perform transfer. Reciever not found.");
             }
 
-            var transactions = _transactionRepository.GetTransactionsByClientIdAsync(request.SenderId);
-            decimal senderBalance = 0;
-            foreach (var transaction in await transactions)
-            {
-                senderBalance += transaction.Amount;
-            }
+            decimal senderBalance = await _transactionRepository.
+                GetClientCurrentBalanceAsync(request.SenderId);
 
             if (senderBalance - request.Amount < 0)
             {
