@@ -4,6 +4,7 @@ using TransactionsApi.CQRS.Commands.Accrual;
 using TransactionsApi.CQRS.Commands.WriteOff;
 using TransactionsApi.CQRS.Commands.Transfer;
 using TransactionsApi.CQRS.Queries.GetClientBalance;
+using TransactionsApi.CQRS.Queries.GetClientTransactions;
 
 namespace TransactionsApi.Controllers
 {
@@ -19,12 +20,23 @@ namespace TransactionsApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{clientId}")]
+        [HttpGet("ClientBalance/{clientId}")]
         [ProducesResponseType(typeof(GetClientBalanceResult), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetClientBalance(Guid clientId)
         {
             var result = await _mediator.Send(new GetClientBalanceQuery(clientId));
+            return Ok(result);
+        }
+
+        [HttpGet("ClientTransactions/{clientId}")]
+        [ProducesResponseType(typeof(GetClientTransactionsResult), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetClientTransactions(Guid clientId, int pageNumber,
+            int pageSize, string sortBy, bool isAscending)
+        {
+            var result = await _mediator.Send(new GetClientTransactionsQuery(clientId, pageNumber, 
+                pageSize, sortBy, isAscending));
             return Ok(result);
         }
 

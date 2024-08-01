@@ -1,13 +1,10 @@
-﻿namespace TransactionsApi.Models
+﻿namespace TransactionsApi.Dto
 {
-    public class Transaction
+    public class TransactionDto
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
         public string? Comment { get; set; }
         public DateTime TransactionDate { get; set; }
-
-        public Guid ClientId { get; set; }
-        public Client? Client { get; set; }
     }
 }
